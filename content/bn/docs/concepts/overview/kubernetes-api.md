@@ -14,11 +14,18 @@ card:
 
 
 
-কুবেরনেটিস এর প্রধান অংশ  {{< glossary_tooltip text="control plane" term_id="control-plane" >}} 
+কুবারনেটিস এর প্রধান অংশ  {{< glossary_tooltip text="control plane" term_id="control-plane" >}} 
 হোলো {{< glossary_tooltip text="API server" term_id="kube-apiserver" >}}| ক্লাস্টারের  বিভিন্ন অংশ ,
 ক্লাস্টার ব্যাবহারকারী এবং বহিরাগত কম্পোনেন্টস 
 একে অপরের  সাথে API Server এর মাধ্যমে  যোগাযোগ করে |
 
 কুবারনেটিস  API  আপনাকে কুবারনেটিস  অবজেক্টের অবস্থা  খোঁজার এবং পরিবর্তন করার সুযোগ দেয় (যেমনঃ পডস ,নেমস্পেস,কন্ফিগম্যাপস,ইভেন্টস) |
 
+বেশিরভাগ কার্য সম্পাদন [kubectl](/docs/reference/kubectl/)
+কমান্ড-লাইন ইন্টারফেস অথবা কমান্ড-লাইন সরঞ্জামের মাধ্যমে হয়ে থাকে  যেমনঃ 
+[kubeadm](/docs/reference/setup-tools/kubeadm/), যা API ব্যবহার করে |
+এছাড়াও আপনি সরাসরি REST কলের মাধ্যমে API অ্যাক্সেসও করতে পারেন |
+কুবারনেটিস কিছু [ক্লায়েন্ট লাইব্রেরি](/docs/reference/using-api/client-libraries/) 
+দিয়ে থাকে তাদের জন্য 
+যারা কুবারনেটিস API দিয়ে অ্যাপ্লিকেশনস লিখতে চায় |
 
