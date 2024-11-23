@@ -192,3 +192,78 @@ OpenAPI সংস্করণ 2-এর সীমাবদ্ধতার কা�
   </tbody>
 </table>
 
+
+### OpenAPI V3
+
+{{< feature-state feature_gate_name="OpenAPIV3" >}}
+
+কুবারনেটিস তার API গুলির একটি বিবরন  OpenAPI v3 হিসাবে প্রকাশ করতে সমর্থন করে।
+
+ডিসকভারি এন্ডপয়েন্ট `/openapi/v3` দেয়া হয়ে থাকে 
+বিদ্যমান গ্রুপ/সংস্করণ  গুলো দেখতে | এই এন্ডপয়েন্ট জেসন ফেরত দিয়ে থাকে | এই
+গ্রুপ/সংস্করণ নিম্নলিখিত বিন্যাসে সরবরাহ করা হয়:
+
+```yaml
+{
+    "paths": {
+        ...,
+        "api/v1": {
+            "serverRelativeURL": "/openapi/v3/api/v1?hash=CC0E9BFD992D8C59AEC98A1E2336F899E8318D3CF4C68944C3DEC640AF5AB52D864AC50DAA8D145B3494F75FA3CFF939FCBDDA431DAD3CA79738B297795818CF"
+        },
+        "apis/admissionregistration.k8s.io/v1": {
+            "serverRelativeURL": "/openapi/v3/apis/admissionregistration.k8s.io/v1?hash=E19CC93A116982CE5422FC42B590A8AFAD92CDE9AE4D59B5CAAD568F083AD07946E6CB5817531680BCE6E215C16973CD39003B0425F3477CFD854E89A9DB6597"
+        },
+        ....
+    }
+}
+```
+<!-- for editors: সিনট্যাক্স হাইলাইট ত্রুটি রোধ করতে এখানে ইচ্ছাকৃতভাবে জেএসওএন এর পরিবর্তে YAML ব্যবহার করুন | -->
+
+ক্লায়েন্ট-সাইড ক্যাশিং উন্নত করার জন্য আপেক্ষিক ইউআরএলগুলি 
+অপরিবর্তনীয় OpenAPI বর্ণনার দিকে ইঙ্গিত করছে । সঠিক HTTP ক্যাশিং হেডারগুলি সেই উদ্দেশ্যে API সার্ভার দ্বারা সেট করা হয় 
+(ভবিষ্যতে 'মেয়াদ শেষ' থেকে 1 বছর, এবং 'ক্যাশ-কন্ট্রোল' থেকে 'অপরিবর্তনীয়') 
+যখন একটি অপ্রচলিত ইউআরএল ব্যবহার করা হয়, 
+তখন এপিআই সার্ভার নতুন ইউআরএল-এ একটি পুনঃনির্দেশ ফিরিয়ে দেয়।
+
+The Kubernetes API server publishes an OpenAPI v3 spec per Kubernetes
+group version at the `/openapi/v3/apis/<group>/<version>?hash=<hash>`
+endpoint.
+
+Refer to the table below for accepted request headers.
+
+<table>
+  <caption style="display:none">Valid request header values for OpenAPI v3 queries</caption>
+  <thead>
+     <tr>
+        <th>Header</th>
+        <th style="min-width: 50%;">Possible values</th>
+        <th>Notes</th>
+     </tr>
+  </thead>
+  <tbody>
+     <tr>
+        <td><code>Accept-Encoding</code></td>
+        <td><code>gzip</code></td>
+        <td><em>not supplying this header is also acceptable</em></td>
+     </tr>
+     <tr>
+        <td rowspan="3"><code>Accept</code></td>
+        <td><code>application/com.github.proto-openapi.spec.v3@v1.0+protobuf</code></td>
+        <td><em>mainly for intra-cluster use</em></td>
+     </tr>
+     <tr>
+        <td><code>application/json</code></td>
+        <td><em>default</em></td>
+     </tr>
+     <tr>
+        <td><code>*</code></td>
+        <td><em>serves </em><code>application/json</code></td>
+     </tr>
+  </tbody>
+</table>
+
+A Golang implementation to fetch the OpenAPI V3 is provided in the package
+[`k8s.io/client-go/openapi3`](https://pkg.go.dev/k8s.io/client-go/openapi3).
+
+Kubernetes {{< skew currentVersion >}} publishes
+OpenAPI v2.0 and v3.0; there are no plans to support 3.1 in the near future.
